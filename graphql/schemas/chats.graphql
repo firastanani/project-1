@@ -1,0 +1,56 @@
+scalar util
+# scalar util can contain Message or typing or reaction
+type Query {
+  chats: [Chat]
+  myChats: [Chat]
+  chat(id: ID!): Chat
+  getMessageForPrivate(from: String!): [Message]
+}
+
+type Mutation {
+  createMessage(chatId: ID!, content: String!, fileUrl: Upload): Message!
+  createChat(name: String!, users: [ID!]!): Chat!
+  updateMessage(messageId: ID!, content: String!, fileUrl: Upload): Message!
+  deleteMessage(messageId: ID!): Message!
+  reactToMessage(messageId: ID!, content: String!): Reaction!
+  #userTypingForPrivate(email: String!, receiverMail: String!): Boolean!
+  createMessageForPrivate(senderMail: String!receiverMail: String!message: String!fileUrl: Upload): Message!
+}
+
+type Subscription {
+  newEvent(chatId: ID!): util
+  newMessageForPrivate: Message
+  #userTypingForPrivate: String
+  newReactionForPrivate: Reaction
+}
+
+type Reaction {
+  _id: ID!
+  content: String!
+  createdAt: Date!
+  updatedAt: Date!
+  message: Message!
+  user: User!
+}
+
+type Chat {
+  _id: ID!
+  name: String!
+  users: [User!]!
+  createdAt: Date!
+  updatedAt: Date!
+  admin: User!
+  messages: [Message]
+}
+
+type Message {
+  _id: ID!
+  chat: Chat
+  content: String!
+  author: User!
+  createdAt: Date!
+  updatedAt: Date!
+  receiverMail: User!
+  reactions: [Reaction]
+  fileUrl: String
+}

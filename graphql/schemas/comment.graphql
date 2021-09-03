@@ -1,0 +1,44 @@
+type Comment {
+  text: String!
+  _id: ID!
+  author: User!
+  post: Post!
+  fileUrl: String
+}
+
+input CommentInputData {
+  text: String!
+  postId: ID!
+  fileUrl: Upload
+}
+
+input UpdateCommentInput {
+  text: String!
+  fileUrl: Upload
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  data: Comment!
+}
+
+enum MutationType {
+  Create
+  delete
+  update
+}
+
+type Query {
+  getComment: [Comment]
+  getCommentForPost(postId: ID!): [Comment]
+}
+
+type Mutation {
+  createComment(data: CommentInputData!): Comment!
+  updateComment(commentId: ID!, data: UpdateCommentInput!): Comment!
+  deleteComment(commentId: ID!): Comment!
+}
+
+type Subscription {
+  comment(postID: ID!): CommentSubscriptionPayload!
+}

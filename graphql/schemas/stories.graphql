@@ -1,0 +1,30 @@
+type Story {
+  _id: ID!
+  imageUrl: String!
+  createdAt: Date!
+  author: User!
+}
+
+type MyStory {
+  story: Story!
+  viewers: [User!]!
+  viewerCount: Int
+}
+
+type Mutation {
+  addStory(image: Upload!): Story!
+  storySeen(id: ID!): Boolean!
+}
+
+type UserStories {
+  _id: ID!
+  name: String!
+  email: String!
+  stories: [Story!]!
+}
+
+type Query {
+  stories: [UserStories!]!
+  story(storyId: ID!): Story!
+  myStories: [MyStory!]!
+}

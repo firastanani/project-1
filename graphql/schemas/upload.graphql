@@ -1,0 +1,16 @@
+type File {
+    encoding: String
+    id: ID
+    Location: String
+    filename: String
+    mimetype: String
+    success: Boolean
+    message: String
+}
+
+
+
+type Mutation {
+    singleUpload(file: Upload!): File!
+    multipleUpload(files: [Upload!]!): [File!]!
+}

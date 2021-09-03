@@ -1,0 +1,3 @@
+type Query {
+  textSearch(fieldSearch: String!): [User!]!
+}

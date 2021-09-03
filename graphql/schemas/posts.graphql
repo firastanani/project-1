@@ -1,0 +1,50 @@
+scalar Date
+scalar Upload
+
+type Post {
+  _id: ID!
+  description: String!
+  filesUrl: [String]
+  createdAt: Date!
+  updatedAt: Date!
+  author: User!
+  likesCount: Int!
+  lovesCount: Int!
+  disLikeCount: Int!
+  myReaction: Reactions!
+  likes: [User!]!
+  disLikes: [User!]!
+  loves: [User!]!
+}
+
+enum Reactions {
+  LIKE
+  DISLIKE
+  LOVE
+  NONE
+}
+
+input PostInputData {
+  description: String!
+  filesUrl: [Upload]
+}
+
+input UpdatePostInput {
+  description: String!
+  filesUrl: [Upload]
+}
+
+type Mutation {
+  createPost(data: PostInputData!): Post!
+  updatePost(id: ID! , data: UpdatePostInput!): Post!
+  deletePost(id: ID!): Post!
+
+  likePost(postId: ID!): Post!
+  disLikePost(postId: ID!): Post!
+  lovePost(postId: ID!): Post!
+}
+
+type Query {
+  getPosts: [Post!]!
+  getPostsOnFriends: [Post!]!
+}

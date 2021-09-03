@@ -1,0 +1,19 @@
+type Notification {
+  _id: ID!
+  from: User!
+  to: User!
+  label: String!
+  createdAt: Date!
+}
+
+type Query {
+  notifications: [Notification]
+}
+
+type Mutation {
+  pushNotification(label: String! , id:ID!): Notification
+}
+
+type Subscription {
+  newNotification: Notification
+}

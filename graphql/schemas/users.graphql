@@ -1,0 +1,90 @@
+scalar Upload
+scalar util
+type User {
+  _id: ID!
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String
+  age: Int
+  posts: [Post!]!
+
+  mutualFriends: MutualFriendsPayload!
+  friendRequestsReceived: [User]
+  friends: FriendsPayload!
+  friendRequestsSent: [User]
+
+  isFriends: Boolean!
+  doISentHimFriendRequest: Boolean!
+  doHeSentMeFriendRequest: Boolean!
+
+  # latestMessage: Message
+}
+
+type FriendsPayload {
+  friendsData: [User]!
+  friendsCount: Int!
+}
+
+type MutualFriendsPayload {
+  mutualFriendsData: [User!]!
+  mutualFriendsCount: Int!
+}
+
+input UserInputDataForCreate {
+  email: String!
+  name: String!
+  password: String!
+  age: Int
+  image: Upload
+}
+
+input UserInputDataForUpdate {
+  name: String
+  age: Int
+  image: Upload
+}
+
+type AuthData {
+  token: String!
+  user: User!
+}
+
+input inputLogin {
+  email: String!
+  password: String!
+}
+
+enum FriendsPrivacyInput {
+  PUBLIC
+  PRIVATE
+  FRIENDS
+}
+
+type Query {
+  login(data: inputLogin!): AuthData!
+  getProfile(userId: ID!): User!
+  getMe: User!
+  hello: String
+  getUsers: [User]!
+}
+
+type Mutation {
+  singleUpload(file: Upload!): File!
+  logout: Boolean!
+  logoutAll: Boolean!
+
+  createUser(data: UserInputDataForCreate!): User!
+  updateUser(data: UserInputDataForUpdate!): User!
+  deleteUser(id: ID!): User!
+
+  acceptFriendRequest(id: ID!): User!
+  sendaFriendRequest(id: ID!): User!
+  deleteFriend(id: ID!): User!
+  rejectFriendRequest(id: ID!): User!
+  deleteFriendRequestSent(id: ID!): User!
+
+  resetPassword(oldPassword: String!, newPassword: String!): Boolean!
+
+  changeFriendsPrivacy(friendsPrivacy: FriendsPrivacyInput!): Boolean!
+}
